@@ -3,54 +3,54 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --bg: #f7f8fa;
-  --bg-elevated: #ffffff;
-  --bg-sunken: #eef0f3;
-  --text-primary: #10151f;
-  --text-secondary: #4b5563;
-  --text-muted: #8b93a1;
-  --border: #e2e5ea;
-  --border-strong: #cbd0d9;
+  --bg: #f4f5f3;
+  --bg-elevated: #fbfbfa;
+  --bg-sunken: #e9eae6;
+  --text-primary: #14161a;
+  --text-secondary: #52565c;
+  --text-muted: #8a8f96;
+  --border: #d8dad5;
+  --border-strong: #b9bcb5;
 
-  --accent: #2554c7;
-  --accent-strong: #1a3f9e;
-  --accent-soft: #e8edfb;
+  --accent: #1f5eff;
+  --accent-strong: #1642bd;
+  --accent-soft: #e4ebff;
 
-  --safe: #0f8a5f;
-  --safe-soft: #e2f6ee;
-  --danger: #d1403a;
-  --danger-soft: #fbe8e7;
-  --warn: #b6791a;
-  --warn-soft: #faf0dd;
+  --safe: #0c8a52;
+  --safe-soft: #e0f2e8;
+  --danger: #c93327;
+  --danger-soft: #f9e6e4;
+  --warn: #a56a0a;
+  --warn-soft: #f5ecd8;
 
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
-  --shadow-card: 0 1px 2px rgba(16, 21, 31, 0.04), 0 1px 1px rgba(16, 21, 31, 0.03);
+  --grid-line: #dddedb;
 }
 
 .dark {
-  --bg: #0b0f16;
-  --bg-elevated: #10151f;
-  --bg-sunken: #060a10;
-  --text-primary: #edf1f7;
-  --text-secondary: #a2acbc;
-  --text-muted: #62697a;
-  --border: #1e2632;
-  --border-strong: #2a3444;
+  --bg: #0a0d13;
+  --bg-elevated: #10141c;
+  --bg-sunken: #05070a;
+  --text-primary: #e7eaf0;
+  --text-secondary: #8d94a3;
+  --text-muted: #565d6b;
+  --border: #1b212c;
+  --border-strong: #2a3140;
 
   --accent: #5b8cff;
-  --accent-strong: #7fa3ff;
-  --accent-soft: #16233f;
+  --accent-strong: #85a6ff;
+  --accent-soft: #131c33;
 
-  --safe: #35d399;
-  --safe-soft: #0f2a22;
-  --danger: #ff6b62;
-  --danger-soft: #331615;
-  --warn: #f0b429;
-  --warn-soft: #2e2410;
+  --safe: #2ed398;
+  --safe-soft: #0d211a;
+  --danger: #ff6259;
+  --danger-soft: #2a1310;
+  --warn: #e8ac2e;
+  --warn-soft: #251d09;
 
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2);
+  --grid-line: #141a24;
 }
 
 @theme inline {
@@ -84,7 +84,10 @@ html {
 }
 
 body {
-  background: var(--bg);
+  background:
+    linear-gradient(var(--grid-line) 1px, transparent 1px) 0 0 / 100% 32px,
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px) 0 0 / 32px 100%,
+    var(--bg);
   color: var(--text-primary);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
 }
@@ -101,21 +104,13 @@ body {
 
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.35; }
+  50% { opacity: 0.3; }
 }
 
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-fade-up {
-  animation: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.grid-texture {
-  background-image:
-    linear-gradient(to right, var(--border) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
-  background-size: 48px 48px;
+.status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: pulse-dot 1.8s ease-in-out infinite;
 }
