@@ -15,35 +15,35 @@ const FALLBACK = {
 function Bar({ label, ruleValue, modelValue }: { label: string; ruleValue: number; modelValue: number }) {
   return (
     <div>
-      <div className="mb-3 text-sm font-medium" style={{ color: "var(--text-primary)" }}>
+      <div className="mb-3 font-mono-tab text-xs" style={{ color: "var(--text-muted)" }}>
         {label}
       </div>
-      <div className="space-y-2.5">
-        <div className="flex items-center gap-3">
-          <span className="w-20 shrink-0 text-xs" style={{ color: "var(--text-muted)" }}>
-            Rule
+      <div className="space-y-2">
+        <div className="flex items-center gap-3 font-mono-tab text-xs">
+          <span className="w-14 shrink-0" style={{ color: "var(--text-secondary)" }}>
+            rule
           </span>
-          <div className="h-2 flex-1 overflow-hidden rounded-full" style={{ background: "var(--bg-sunken)" }}>
+          <div className="h-1.5 flex-1" style={{ background: "var(--bg-sunken)" }}>
             <div
-              className="h-full rounded-full transition-[width] duration-1000 ease-out"
+              className="h-full transition-[width] duration-1000 ease-out"
               style={{ width: `${Math.max(ruleValue * 100, 1.5)}%`, background: "var(--danger)" }}
             />
           </div>
-          <span className="w-14 shrink-0 text-right text-xs font-mono-tab" style={{ color: "var(--text-secondary)" }}>
+          <span className="w-14 shrink-0 text-right" style={{ color: "var(--text-primary)" }}>
             {(ruleValue * 100).toFixed(2)}%
           </span>
         </div>
-        <div className="flex items-center gap-3">
-          <span className="w-20 shrink-0 text-xs" style={{ color: "var(--text-muted)" }}>
-            Model
+        <div className="flex items-center gap-3 font-mono-tab text-xs">
+          <span className="w-14 shrink-0" style={{ color: "var(--text-secondary)" }}>
+            model
           </span>
-          <div className="h-2 flex-1 overflow-hidden rounded-full" style={{ background: "var(--bg-sunken)" }}>
+          <div className="h-1.5 flex-1" style={{ background: "var(--bg-sunken)" }}>
             <div
-              className="h-full rounded-full transition-[width] duration-1000 ease-out"
+              className="h-full transition-[width] duration-1000 ease-out"
               style={{ width: `${modelValue * 100}%`, background: "var(--safe)" }}
             />
           </div>
-          <span className="w-14 shrink-0 text-right text-xs font-mono-tab" style={{ color: "var(--text-secondary)" }}>
+          <span className="w-14 shrink-0 text-right" style={{ color: "var(--text-primary)" }}>
             {(modelValue * 100).toFixed(1)}%
           </span>
         </div>
@@ -74,34 +74,24 @@ export function ResultsSection() {
       </Reveal>
 
       <Reveal delay={0.08} className="mt-10 grid gap-8 sm:grid-cols-2">
-        <Bar label="Recall — fraud actually caught" ruleValue={ruleRecall} modelValue={modelRecall} />
-        <Bar label="Precision — alerts that are real fraud" ruleValue={rulePrecision} modelValue={modelPrecision} />
+        <Bar label="recall — fraud actually caught" ruleValue={ruleRecall} modelValue={modelRecall} />
+        <Bar label="precision — alerts that are real fraud" ruleValue={rulePrecision} modelValue={modelPrecision} />
       </Reveal>
 
-      <Reveal delay={0.14} className="mt-12 flex flex-wrap gap-x-10 gap-y-4 border-t pt-6" style={{ borderColor: "var(--border)" }}>
-        <div>
-          <div className="text-xl font-medium font-mono-tab" style={{ color: "var(--accent)" }}>
-            {auc.toFixed(4)}
-          </div>
-          <div className="mt-0.5 text-sm" style={{ color: "var(--text-muted)" }}>
-            Model AUC
-          </div>
+      <Reveal delay={0.14} className="mt-12 border-t font-mono-tab text-sm" style={{ borderColor: "var(--border)" }}>
+        <div className="flex items-baseline justify-between border-b py-2.5" style={{ borderColor: "var(--border)" }}>
+          <span style={{ color: "var(--text-muted)" }}>model.auc</span>
+          <span style={{ color: "var(--accent)" }}>{auc.toFixed(4)}</span>
         </div>
-        <div>
-          <div className="text-xl font-medium font-mono-tab" style={{ color: "var(--text-primary)" }}>
-            {info ? `${(info.fraud_rate_test * 100).toFixed(1)}%` : "1.2%"}
-          </div>
-          <div className="mt-0.5 text-sm" style={{ color: "var(--text-muted)" }}>
-            Fraud in test set
-          </div>
+        <div className="flex items-baseline justify-between border-b py-2.5" style={{ borderColor: "var(--border)" }}>
+          <span style={{ color: "var(--text-muted)" }}>fraud_rate.test</span>
+          <span style={{ color: "var(--text-primary)" }}>{info ? `${(info.fraud_rate_test * 100).toFixed(1)}%` : "1.2%"}</span>
         </div>
-        <div>
-          <div className="text-xl font-medium font-mono-tab" style={{ color: "var(--text-primary)" }}>
+        <div className="flex items-baseline justify-between py-2.5">
+          <span style={{ color: "var(--text-muted)" }}>model_rule.agreement</span>
+          <span style={{ color: "var(--text-primary)" }}>
             {info ? `${(info.model_vs_rule_agreement_rate * 100).toFixed(1)}%` : "98.4%"}
-          </div>
-          <div className="mt-0.5 text-sm" style={{ color: "var(--text-muted)" }}>
-            Model / rule agreement
-          </div>
+          </span>
         </div>
       </Reveal>
     </section>

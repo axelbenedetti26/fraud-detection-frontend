@@ -7,6 +7,9 @@ export function NarrativeSection() {
     <section className="border-y" style={{ borderColor: "var(--border)", background: "var(--bg-sunken)" }}>
       <div className="mx-auto max-w-3xl px-6 py-20">
         <Reveal>
+          <div className="mb-1 font-mono-tab text-xs" style={{ color: "var(--text-muted)" }}>
+            context
+          </div>
           <h2 className="text-2xl font-medium sm:text-3xl" style={{ color: "var(--text-primary)" }}>
             Account takeover doesn&apos;t look like an outlier
           </h2>

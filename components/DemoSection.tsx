@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Reveal } from "./Reveal";
 import { ScoreGauge } from "./ScoreGauge";
 import { predictTransaction, TransactionInput, TxnType, PredictionResult } from "@/lib/api";
 
 const PRESETS: { label: string; input: TransactionInput }[] = [
   {
-    label: "Account takeover",
+    label: "account_takeover",
     input: {
       type: "TRANSFER",
       amount: 45230.5,
@@ -20,7 +20,7 @@ const PRESETS: { label: string; input: TransactionInput }[] = [
     },
   },
   {
-    label: "Everyday payment",
+    label: "everyday_payment",
     input: {
       type: "PAYMENT",
       amount: 85.3,
@@ -33,7 +33,7 @@ const PRESETS: { label: string; input: TransactionInput }[] = [
     },
   },
   {
-    label: "Large legit transfer",
+    label: "large_legit_transfer",
     input: {
       type: "TRANSFER",
       amount: 250000,
@@ -54,6 +54,7 @@ function fieldStyle() {
     background: "transparent",
     borderColor: "var(--border-strong)",
     color: "var(--text-primary)",
+    borderRadius: "3px",
   };
 }
 
@@ -101,15 +102,18 @@ export function DemoSection() {
   return (
     <section id="demo" className="mx-auto max-w-3xl px-6 py-20">
       <Reveal>
+        <div className="mb-1 font-mono-tab text-xs" style={{ color: "var(--text-muted)" }}>
+          POST /predict
+        </div>
         <h2 className="text-2xl font-medium sm:text-3xl" style={{ color: "var(--text-primary)" }}>
           Build a transaction, watch it get scored
         </h2>
         <p className="mt-2 text-sm sm:text-base" style={{ color: "var(--text-secondary)" }}>
-          This calls the real deployed model. First request may take a moment — it's on a free server that sleeps when idle.
+          Calls the deployed model directly. First request may take a moment on a cold server.
         </p>
       </Reveal>
 
-      <Reveal delay={0.05} className="mt-6 flex flex-wrap gap-2">
+      <Reveal delay={0.05} className="mt-6 flex flex-wrap gap-2 font-mono-tab text-xs">
         {PRESETS.map((p, i) => (
           <button
             key={p.label}
@@ -117,9 +121,10 @@ export function DemoSection() {
               setActivePreset(i);
               setInput(p.input);
             }}
-            className="rounded-md border px-3 py-1.5 text-sm transition-colors"
+            className="border px-2.5 py-1.5 transition-colors"
             style={{
-              borderColor: activePreset === i ? "var(--accent)" : "var(--border)",
+              borderRadius: "3px",
+              borderColor: activePreset === i ? "var(--accent)" : "var(--border-strong)",
               color: activePreset === i ? "var(--accent)" : "var(--text-secondary)",
             }}
           >
@@ -130,13 +135,13 @@ export function DemoSection() {
 
       <div className="mt-10 grid gap-10 sm:grid-cols-2">
         <Reveal delay={0.1}>
-          <div className="grid grid-cols-2 gap-x-4 gap-y-5">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-5 font-mono-tab">
             <label className="col-span-2 sm:col-span-1 text-xs" style={{ color: "var(--text-secondary)" }}>
-              Type
+              type
               <select
                 value={input.type}
                 onChange={(e) => update({ type: e.target.value as TxnType })}
-                className="mt-1.5 w-full rounded-md border px-3 py-2 text-sm"
+                className="mt-1.5 w-full border px-3 py-2 text-sm"
                 style={fieldStyle()}
               >
                 {TXN_TYPES.map((t) => (
@@ -148,74 +153,74 @@ export function DemoSection() {
             </label>
 
             <label className="text-xs" style={{ color: "var(--text-secondary)" }}>
-              Amount (USD)
+              amount
               <input
                 type="number"
                 value={input.amount}
                 onChange={(e) => update({ amount: Number(e.target.value) })}
-                className="mt-1.5 w-full rounded-md border px-3 py-2 text-sm font-mono-tab"
+                className="mt-1.5 w-full border px-3 py-2 text-sm"
                 style={fieldStyle()}
               />
             </label>
 
             <label className="text-xs" style={{ color: "var(--text-secondary)" }}>
-              Sender balance before
+              oldbalanceOrg
               <input
                 type="number"
                 value={input.oldbalanceOrg}
                 onChange={(e) => update({ oldbalanceOrg: Number(e.target.value) })}
-                className="mt-1.5 w-full rounded-md border px-3 py-2 text-sm font-mono-tab"
+                className="mt-1.5 w-full border px-3 py-2 text-sm"
                 style={fieldStyle()}
               />
             </label>
 
             <label className="text-xs" style={{ color: "var(--text-secondary)" }}>
-              Sender balance after
+              newbalanceOrig
               <input
                 type="number"
                 value={input.newbalanceOrig}
                 onChange={(e) => update({ newbalanceOrig: Number(e.target.value) })}
-                className="mt-1.5 w-full rounded-md border px-3 py-2 text-sm font-mono-tab"
+                className="mt-1.5 w-full border px-3 py-2 text-sm"
                 style={fieldStyle()}
               />
             </label>
 
             <label className="text-xs" style={{ color: "var(--text-secondary)" }}>
-              Recipient balance before
+              oldbalanceDest
               <input
                 type="number"
                 value={input.oldbalanceDest}
                 onChange={(e) => update({ oldbalanceDest: Number(e.target.value) })}
-                className="mt-1.5 w-full rounded-md border px-3 py-2 text-sm font-mono-tab"
+                className="mt-1.5 w-full border px-3 py-2 text-sm"
                 style={fieldStyle()}
               />
             </label>
 
             <label className="text-xs" style={{ color: "var(--text-secondary)" }}>
-              Recipient balance after
+              newbalanceDest
               <input
                 type="number"
                 value={input.newbalanceDest}
                 onChange={(e) => update({ newbalanceDest: Number(e.target.value) })}
-                className="mt-1.5 w-full rounded-md border px-3 py-2 text-sm font-mono-tab"
+                className="mt-1.5 w-full border px-3 py-2 text-sm"
                 style={fieldStyle()}
               />
             </label>
 
             <label className="text-xs" style={{ color: "var(--text-secondary)" }}>
-              Recipient's prior transactions
+              dest_txn_history
               <input
                 type="number"
                 min={0}
                 value={input.dest_txn_history}
                 onChange={(e) => update({ dest_txn_history: Number(e.target.value) })}
-                className="mt-1.5 w-full rounded-md border px-3 py-2 text-sm font-mono-tab"
+                className="mt-1.5 w-full border px-3 py-2 text-sm"
                 style={fieldStyle()}
               />
             </label>
 
             <label className="col-span-2 text-xs" style={{ color: "var(--text-secondary)" }}>
-              Hour of day — <span className="font-mono-tab">{String(input.hour_of_day).padStart(2, "0")}:00</span>
+              hour_of_day = <span style={{ color: "var(--text-primary)" }}>{String(input.hour_of_day).padStart(2, "0")}:00</span>
               <input
                 type="range"
                 min={0}
@@ -231,13 +236,13 @@ export function DemoSection() {
         <Reveal delay={0.15}>
           <div className="flex h-full flex-col items-center justify-center text-center">
             {status === "waking" && (
-              <p className="mb-3 text-xs" style={{ color: "var(--warn)" }}>
-                waking up the server…
+              <p className="mb-3 font-mono-tab text-xs" style={{ color: "var(--warn)" }}>
+                waking server…
               </p>
             )}
             {status === "error" && (
-              <p className="mb-3 text-xs" style={{ color: "var(--danger)" }}>
-                Couldn&apos;t reach the model — try again in a moment.
+              <p className="mb-3 font-mono-tab text-xs" style={{ color: "var(--danger)" }}>
+                request failed — retry in a moment
               </p>
             )}
 
@@ -245,24 +250,24 @@ export function DemoSection() {
               <ScoreGauge score={result?.fraud_score ?? 0} threshold={result?.decision_threshold ?? 0.5} />
             </div>
 
-            <div className="mt-6 flex items-center gap-6 text-sm">
-              <span>
-                <span style={{ color: "var(--text-muted)" }}>Model: </span>
-                <span style={{ color: result?.model_flag ? "var(--danger)" : "var(--safe)", fontWeight: 500 }}>
-                  {result?.model_flag ? "Flagged" : "Clear"}
+            <div className="mt-6 w-full max-w-[220px] border-t font-mono-tab text-sm" style={{ borderColor: "var(--border)" }}>
+              <div className="flex items-baseline justify-between border-b py-2" style={{ borderColor: "var(--border)" }}>
+                <span style={{ color: "var(--text-muted)" }}>model</span>
+                <span style={{ color: result?.model_flag ? "var(--danger)" : "var(--safe)" }}>
+                  {result?.model_flag ? "flagged" : "clear"}
                 </span>
-              </span>
-              <span>
-                <span style={{ color: "var(--text-muted)" }}>Rule: </span>
-                <span style={{ color: result?.static_rule_flag ? "var(--danger)" : "var(--safe)", fontWeight: 500 }}>
-                  {result?.static_rule_flag ? "Flagged" : "Clear"}
+              </div>
+              <div className="flex items-baseline justify-between py-2">
+                <span style={{ color: "var(--text-muted)" }}>rule</span>
+                <span style={{ color: result?.static_rule_flag ? "var(--danger)" : "var(--safe)" }}>
+                  {result?.static_rule_flag ? "flagged" : "clear"}
                 </span>
-              </span>
+              </div>
             </div>
 
             {result && !result.flags_agree && (
-              <p className="mt-4 text-xs" style={{ color: "var(--warn)" }}>
-                They disagree — usually where the interesting fraud is.
+              <p className="mt-4 font-mono-tab text-xs" style={{ color: "var(--warn)" }}>
+                disagreement — usually the interesting case
               </p>
             )}
           </div>

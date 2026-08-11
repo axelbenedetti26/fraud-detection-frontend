@@ -13,23 +13,6 @@ const FALLBACK_IMPORTANCES: [string, number][] = [
   ["newbalanceOrig", 0.0676],
 ];
 
-const LABELS: Record<string, string> = {
-  oldbalanceDest: "Recipient balance before",
-  balance_drained_ratio: "Balance drained ratio",
-  amount: "Transaction amount",
-  dest_txn_history: "Recipient's prior transactions",
-  oldbalanceOrg: "Sender balance before",
-  newbalanceOrig: "Sender balance after",
-  newbalanceDest: "Recipient balance after",
-  type_TRANSFER: "Type: transfer",
-  hour_of_day: "Hour of day",
-  type_PAYMENT: "Type: payment",
-  type_CASH_OUT: "Type: cash-out",
-  type_CASH_IN: "Type: cash-in",
-  is_night: "Night hours",
-  type_DEBIT: "Type: debit",
-};
-
 export function HowItWorksSection() {
   const [importances, setImportances] = useState<[string, number][]>(FALLBACK_IMPORTANCES);
 
@@ -47,6 +30,9 @@ export function HowItWorksSection() {
   return (
     <section id="how-it-works" className="mx-auto max-w-3xl px-6 py-20">
       <Reveal>
+        <div className="mb-1 font-mono-tab text-xs" style={{ color: "var(--text-muted)" }}>
+          GET /model-info
+        </div>
         <h2 className="text-2xl font-medium sm:text-3xl" style={{ color: "var(--text-primary)" }}>
           A Random Forest, 8 features, and one honest mistake
         </h2>
@@ -67,22 +53,22 @@ export function HowItWorksSection() {
       </Reveal>
 
       <Reveal delay={0.1} className="mt-10">
-        <div className="mb-4 text-sm" style={{ color: "var(--text-muted)" }}>
-          What the model weighs most
+        <div className="mb-4 font-mono-tab text-xs" style={{ color: "var(--text-muted)" }}>
+          feature_importances
         </div>
-        <div className="space-y-3">
+        <div className="space-y-2.5">
           {importances.map(([key, value]) => (
-            <div key={key} className="flex items-center gap-3">
-              <span className="w-44 shrink-0 truncate text-xs" style={{ color: "var(--text-secondary)" }}>
-                {LABELS[key] ?? key}
+            <div key={key} className="flex items-center gap-3 font-mono-tab text-xs">
+              <span className="w-44 shrink-0 truncate" style={{ color: "var(--text-secondary)" }}>
+                {key}
               </span>
-              <div className="h-2 flex-1 overflow-hidden rounded-full" style={{ background: "var(--bg-sunken)" }}>
+              <div className="h-1.5 flex-1" style={{ background: "var(--bg-sunken)" }}>
                 <div
-                  className="h-full rounded-full transition-[width] duration-1000 ease-out"
+                  className="h-full transition-[width] duration-1000 ease-out"
                   style={{ width: `${(value / max) * 100}%`, background: "var(--accent)" }}
                 />
               </div>
-              <span className="w-9 shrink-0 text-right text-xs font-mono-tab" style={{ color: "var(--text-muted)" }}>
+              <span className="w-9 shrink-0 text-right" style={{ color: "var(--text-primary)" }}>
                 {(value * 100).toFixed(0)}%
               </span>
             </div>
