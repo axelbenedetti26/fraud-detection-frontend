@@ -43,7 +43,7 @@ export function Hero() {
           transition={{ duration: 0.55, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           className="mt-8 flex flex-wrap items-center gap-3"
         >
-          <a
+          
             href="#demo"
             className="px-5 py-2.5 text-sm font-medium transition-transform active:scale-[0.98]"
             style={{ background: "var(--accent)", color: "#fff" }}
