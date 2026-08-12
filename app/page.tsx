@@ -2,6 +2,7 @@ import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
 import { DemoSection } from "@/components/DemoSection";
 import { ResultsSection } from "@/components/ResultsSection";
+import { TradeoffSection } from "@/components/TradeoffSection";
 import { NarrativeSection } from "@/components/NarrativeSection";
 import { HowItWorksSection } from "@/components/HowItWorksSection";
 import { LimitationsSection } from "@/components/LimitationsSection";
@@ -15,6 +16,7 @@ export default function Home() {
         <Hero />
         <DemoSection />
         <ResultsSection />
+        <TradeoffSection />
         <NarrativeSection />
         <HowItWorksSection />
         <LimitationsSection />
