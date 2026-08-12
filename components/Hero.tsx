@@ -4,25 +4,26 @@ import { motion } from "framer-motion";
 import { AnimatedNumber } from "./AnimatedNumber";
 
 const ROWS = [
-  { key: "static_rule.recall", value: 0.56, decimals: 2, suffix: "%", tone: "danger" as const },
-  { key: "model.recall", value: 80.0, decimals: 1, suffix: "%", tone: "safe" as const },
-  { key: "model.precision", value: 96.0, decimals: 1, suffix: "%", tone: "safe" as const },
-  { key: "model.auc", value: 0.9996, decimals: 4, suffix: "", tone: "accent" as const },
+  { key: "static_rule.recall", label: "% of fraud a flat-dollar rule catches", value: 0.56, decimals: 2, suffix: "%", tone: "danger" as const },
+  { key: "model.recall", label: "% of fraud the model catches", value: 80.0, decimals: 1, suffix: "%", tone: "safe" as const },
+  { key: "model.precision", label: "% of the model's alerts that are real fraud", value: 96.0, decimals: 1, suffix: "%", tone: "safe" as const },
+  { key: "model.auc", label: "overall ability to rank fraud above legit (1.0 = perfect)", value: 0.9996, decimals: 4, suffix: "", tone: "accent" as const },
 ];
 
 export function Hero() {
   return (
     <section id="top" className="relative">
       <div className="mx-auto max-w-3xl px-6 pt-16 pb-20 sm:pt-20 sm:pb-24">
-        <motion.div
+        <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="mb-6 font-mono-tab text-xs"
-          style={{ color: "var(--text-muted)" }}
+          className="mb-4 max-w-lg font-mono-tab text-sm"
+          style={{ color: "var(--text-secondary)" }}
         >
-          account-takeover fraud model · mobile money · benchmarked live
-        </motion.div>
+          Account-takeover fraud detection for mobile money. Live model, benchmarked
+          against the flat-dollar rule most platforms still run.
+        </motion.p>
 
         <motion.h1
           initial={{ opacity: 0, y: 12 }}
@@ -35,17 +36,6 @@ export function Hero() {
           <span style={{ color: "var(--danger)" }}>0.6%</span> of this fraud.
           <br />A model catches <span style={{ color: "var(--safe)" }}>80%</span>.
         </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-5 max-w-lg text-base sm:text-lg"
-          style={{ color: "var(--text-secondary)" }}
-        >
-          A Random Forest model for account-takeover fraud, run against the
-          flat-threshold rule most platforms still ship with.
-        </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -69,26 +59,38 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-14 border-t"
-          style={{ borderColor: "var(--border)" }}
+          className="mt-14"
         >
-          {ROWS.map((row, i) => (
-            <div
-              key={row.key}
-              className="flex items-baseline justify-between border-b py-2.5 font-mono-tab text-sm"
-              style={{ borderColor: "var(--border)" }}
-            >
-              <span style={{ color: "var(--text-muted)" }}>{row.key}</span>
-              <span
-                style={{
-                  color:
-                    row.tone === "danger" ? "var(--danger)" : row.tone === "safe" ? "var(--safe)" : "var(--accent)",
-                }}
+          <div className="mb-3 text-xs" style={{ color: "var(--text-muted)" }}>
+            Measured on a held-out test set of 15,000 transactions, 1.2% fraud:
+          </div>
+          <div className="border-t" style={{ borderColor: "var(--border)" }}>
+            {ROWS.map((row, i) => (
+              <div
+                key={row.key}
+                className="flex items-center justify-between gap-4 border-b py-3"
+                style={{ borderColor: "var(--border)" }}
               >
-                <AnimatedNumber value={row.value} decimals={row.decimals} suffix={row.suffix} duration={1000 + i * 150} />
-              </span>
-            </div>
-          ))}
+                <div>
+                  <div className="font-mono-tab text-xs" style={{ color: "var(--text-muted)" }}>
+                    {row.key}
+                  </div>
+                  <div className="mt-0.5 text-xs" style={{ color: "var(--text-secondary)" }}>
+                    {row.label}
+                  </div>
+                </div>
+                <span
+                  className="shrink-0 font-mono-tab text-lg"
+                  style={{
+                    color:
+                      row.tone === "danger" ? "var(--danger)" : row.tone === "safe" ? "var(--safe)" : "var(--accent)",
+                  }}
+                >
+                  <AnimatedNumber value={row.value} decimals={row.decimals} suffix={row.suffix} duration={1000 + i * 150} />
+                </span>
+              </div>
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>
