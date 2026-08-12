@@ -27,9 +27,11 @@ export function NarrativeSection() {
           </p>
           <p>
             Many platforms still guard against this with a static rule: flag any transfer
-            above a fixed amount. Cheap, and easy to explain to a regulator. Also nearly
-            blind to this pattern — attackers drain whatever the victim has, which usually
-            looks like an ordinary transfer, not a whale transaction.
+            above a fixed amount. That's not incompetence — a flat rule is cheap to run,
+            doesn&apos;t need an ML team to maintain, and is trivial to explain to a
+            regulator. It&apos;s also nearly blind to this pattern — attackers drain
+            whatever the victim has, which usually looks like an ordinary transfer, not a
+            whale transaction.
           </p>
           <p style={{ color: "var(--text-primary)" }}>This project quantifies that gap.</p>
         </Reveal>
