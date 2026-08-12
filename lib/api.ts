@@ -54,6 +54,14 @@ export interface ModelInfo {
   };
   model_vs_rule_agreement_rate: number;
   feature_importances: Record<string, number>;
+  threshold_curve: { threshold: number; recall: number; precision: number }[];
+  dollar_impact: {
+    test_set_fraud_total_usd: number;
+    model_caught_usd: number;
+    model_missed_usd: number;
+    rule_caught_usd: number;
+    rule_missed_usd: number;
+  };
 }
 
 export async function predictTransaction(
